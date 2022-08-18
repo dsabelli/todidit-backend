@@ -5,11 +5,6 @@ const startOfDay = require("date-fns/startOfDay");
 const endOfDay = require("date-fns/endOfDay");
 
 router.get("/", async (request, response) => {
-  const notes = await Note.find({ user: request.query.id });
-  response.json(notes);
-});
-
-router.get("/", async (request, response) => {
   if (!request.user) {
     return response.status(401).json({ error: "token missing or invalid" });
   }
@@ -24,7 +19,17 @@ router.get("/", async (request, response) => {
     });
     response.json(notes);
   } else if (request.user) {
-    const notes = await Note.find({ user: request.query.id });
+    const notes = await Note.find({
+      $and: [
+        { user: request.query.id },
+        {
+          createdOn: {
+            $gte: startOfDay(new Date()),
+            $lte: endOfDay(new Date()),
+          },
+        },
+      ],
+    });
     response.json(notes);
   }
 });
