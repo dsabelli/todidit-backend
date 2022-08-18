@@ -12,9 +12,10 @@ router.get("/", async (request, response) => {
   if (request.query.dateC) {
     const notes = await Note.find({
       $and: [
-        { user: request.user.id },
+        { user: request.query.id },
         { createdOn: { $lte: endOfDay(parseJSON(request.query.dateC)) } },
         { completedOn: { $gte: startOfDay(parseJSON(request.query.dateC)) } },
+        { isArchived: true },
       ],
     });
     response.json(notes);
@@ -22,12 +23,13 @@ router.get("/", async (request, response) => {
     const notes = await Note.find({
       $and: [
         { user: request.query.id },
-        {
-          createdOn: {
-            $gte: startOfDay(new Date()),
-            $lte: endOfDay(new Date()),
-          },
-        },
+        { isArchived: false },
+        // {
+        //   createdOn: {
+        //     $gte: startOfDay(new Date()),
+        //     $lte: endOfDay(new Date()),
+        //   },
+        // },
       ],
     });
     response.json(notes);
