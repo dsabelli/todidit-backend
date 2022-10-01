@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const PPORT = process.env.PPORT || 3003;
+const PORT = process.env.PORT || 3003;
 const MONGODB_URI =
   process.env.NODE_ENV === "production"
     ? process.env.MONGODB_URI
@@ -11,7 +11,7 @@ const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 
 module.exports = {
   MONGODB_URI,
-  PPORT,
+  PORT,
   PW_SECRET,
   EMAIL_SECRET,
   SENDGRID_API_KEY,
