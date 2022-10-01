@@ -26,7 +26,7 @@ const userExtractor = async (request, response, next) => {
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
     const decodedToken = jwt.verify(
       authorization.substring(7),
-      process.env.SECRET
+      process.env.PW_SECRET
     );
     if (decodedToken) {
       request.user = await User.findById(decodedToken.id);

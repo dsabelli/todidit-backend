@@ -25,7 +25,7 @@ router.post("/", async (request, response) => {
       id: user._id,
     };
     await user.save();
-    const token = jwt.sign(userForToken, config.SECRET);
+    const token = jwt.sign(userForToken, config.PW_SECRET);
 
     return response
       .status(200)
@@ -42,7 +42,7 @@ router.post("/", async (request, response) => {
     id: user._id,
   };
   await user.save();
-  const token = jwt.sign(userForToken, config.SECRET);
+  const token = jwt.sign(userForToken, config.PW_SECRET);
 
   response.status(200).send({ token, username: user.username, id: user._id });
 });
